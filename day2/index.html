@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>每天一个小效果 - 图片hover增大 - 20160812</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit">
+<style>
+    *{
+        padding:0;
+        margin: 0;
+    }
+    ul,li{
+        list-style: none;
+    }
+    li{
+        float:left;
+        width: 390px;
+        height: 254px;
+        overflow: hidden;
+        margin:0 5px;
+    }
+
+    figure{
+        width:100%;
+        height: 100%;
+    }
+
+    img{
+        width:100%;
+        height: 100%;
+        transition: all .2s ease-in-out;
+    }
+    img:hover{
+        /*width:105%;*/
+        /*height:105%;*/
+        transform: scale(1.15);
+    }
+    .clearfix{
+        display: table;
+        clear: both;
+    }
+    section{
+        width:1190px;
+        margin: 0 auto;
+        margin-top: 100px;
+        overflow: hidden;
+    }
+    ul{
+        margin:0 -5px;
+    }
+</style>
+</head>
+<p style="margin-top:10px;">关键点：用 transform: scale(1.15); 来放大图片。如果用width:115%;height:115%来做的话，是从左上角开始缩放的。用transform可以指定变换的点。且默认就是图片的中心点，这正是我们想要的</p>
+  
+<body>
+<section>
+    <ul class="clearfix">
+        <li>
+            <a href="#">
+                <figure>
+                    <img src="http://a.diaox2.com/cms/sites/default/files/20160811/firstpage/6485new1.jpg" alt="">
+                </figure>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <figure>
+                    <img src="http://a.diaox2.com/cms/sites/default/files/20160811/zk/7190cover.jpg" alt="">
+                </figure>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <figure>
+                    <img src="http://a.diaox2.com/cms/sites/default/files/20160810/goodthing/cover1.jpg" alt="">
+                </figure>
+            </a>
+        </li>
+    </ul>
+</section>
+
+<script>
+    (function(){
+
+       
+    }());
+</script>
+</body>
+</html>

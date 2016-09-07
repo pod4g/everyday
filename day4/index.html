@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>每天一个小效果 - 测试属性劫持 - 20160826</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit">
+</head>
+<body>
+<pre id="pre">
+    采菊东篱下
+    悠然见南山
+</pre>
+<button id="btn">改变</button>
+<script>
+btn.onclick = function(){
+    pre.innerHTML = "欲穷千里目\n更上一层楼"
+}
+var ep = Element.prototype;
+// {enumerable: true, configurable: true, set , get} // Ch/FF/Op
+// {enumerable: true, configurable: false, get: undefined, set: undefined} // Safari
+var epDescriptor = Object.getOwnPropertyDescriptor(ep, 'innerHTML');
+console.log(epDescriptor);
+var epOlderSetter = epDescriptor.set;
+console.log(epOlderSetter);
+/*
+  Safari throw:
+  TypeError: Attempting to change the getter of an unconfigurable property.
+*/
+try{
+    Object.defineProperty(ep, 'innerHTML', {
+       set: function(html){
+         alert('I want to do something befroe ...');
+         epOlderSetter.call(this, html);
+       }
+     });
+}catch(e){
+
+    // if(ep.__lookupSetter__){
+    //     epOlderSetter = ep.__lookupSetter__('innerHTML');
+    //     console.log(epOlderSetter);
+    //     ep.__defineSetter__('innerHTML', function(html){
+    //         alert('I want to do something befroe ...');
+    //         // epOlderSetter.call(this, html);
+    //     })
+    // }
+
+    // safari use MO
+    var MutationObserver = window.MutationObserver || window.WebkitMutationObserver || MozMutationObserver;
+    if(MutationObserver){
+        var observer = new MutationObserver(function(mutations){
+            mutations.forEach( function(mutation){
+                var type = mutation.type;
+                console.log(type);
+                if(type === 'characterData'){
+                    alert('I want to do something befroe ...');
+                }
+            });
+        });
+        var config = { 
+            characterData: true,
+            subtree: true 
+        };
+        observer.observe(pre, config);
+    }
+    
+}
+</script>
+</body>
+</html>

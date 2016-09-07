@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>每天一个小效果 - 滚动百分比指示器 - 20160907</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit">
+<style>
+.progress-box{
+    height: 10px;
+    width: 100%;
+    background-color: #d0d0d0;
+    position: fixed;
+}
+.progress{
+    height: 100%;
+    background-color:red;
+    width: 0;
+}
+.p{
+    position: fixed;
+    top:50px;
+}
+</style>
+<script>
+ window.onload = function(){
+    function scrollHandler(){
+        var iH = window.innerHeight;
+        var pageH = document.body.clientHeight;
+        var sub = pageH - iH;
+        var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        var radio = (scrollTop / sub) * 100;
+        progress.style.width = radio + '%';
+    }
+    scrollHandler();
+    window.onscroll = scrollHandler;
+ }
+</script>
+</head>
+<body style="height:3000px;">
+    <div class="progress-box" id="progressBox">
+        <div class="progress" id="progress"></div>
+    </div>
+</body>
+<p class="p">
+关键之处为比例的计算：
+( scrollTop / (文档高度 - 可视区高度) ) * 100
+</p>
+</html>

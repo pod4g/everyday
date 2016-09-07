@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>每天一个小效果 - 知乎评论动画 - 20160812</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit">
+<style>
+    *{
+        padding:0;
+        margin: 0;
+    }
+    body{
+        background-color: #fff;
+    }
+    body > button{
+        margin-left: 20px;
+        margin-top: 500px;
+    }
+    
+    .overlay{
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #efeff4;
+        z-index: -1;
+        opacity: 0;
+        transition: all .2s ease-in;
+    }
+
+    .overlay > button{
+        margin-top: 10px;
+    }
+
+    .overlay-show{
+        background-color: rgba(239,239,244,1);
+        z-index: 1;
+        opacity: 1;
+    }
+
+    .overlay p{
+        opacity: 0;
+        transition: all .5s ease-in-out;
+        margin-top: 10px;
+    }
+
+    .overlay-show p{
+        opacity: 1;
+        margin-top: 0;
+    }
+
+</style>
+</head>
+<!-- 
+关键点：
+-->
+<body style="height:10000px;">
+<p style="margin-top:10px;">用zindex:-1;opacity:0;来隐藏fixed的遮罩元素，如果用display:none;来隐藏的话出不来动画效果</p>
+<button id="view-comment">查看评论</button>
+<section class="overlay">
+    <button id="close-comment">关闭</button>
+    <p>天王盖地虎，宝塔震河妖</p>
+</section>
+
+<script>
+    (function(){
+
+        var viewComment = document.getElementById('view-comment');
+        var closeComment = document.getElementById('close-comment');
+
+        closeComment.addEventListener('click', function(){
+            var overlay = document.getElementsByClassName('overlay')[0];
+            var classList = overlay.classList;
+            looseBody();
+            classList.remove('overlay-show');
+        });
+
+        viewComment.addEventListener('click', function(){
+            var overlay = document.getElementsByClassName('overlay')[0];
+            var classList = overlay.classList;
+            var body = document.body;
+            fixedBody();
+            classList.add('overlay-show');
+        });
+
+        function fixedBody(){
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            document.body.style.cssText += 'position:fixed;top:-'+scrollTop+'px;';
+        }
+
+        function looseBody() {
+            var body = document.body;
+            body.style.position = '';
+            var top = body.style.top;
+            document.body.scrollTop = document.documentElement.scrollTop = -parseInt(top);
+            body.style.top = '';
+        }
+
+        function getScrollTop(){
+            return document.body.scrollTop || document.documentElement.scrollTop;
+        }
+
+        function to(scrollTop){
+            document.body.scrollTop = document.documentElement.scrollTop = scrollTop;
+        }
+    }());
+</script>
+</body>
+</html>
